@@ -1,0 +1,55 @@
+-----------------------------------------------------------------------------------------------
+@CONTEXT PARADIGM -----------------------------------------------------------------------------
+-----------------------------------------------------------------------------------------------
+> The idea that the same variable name is used across objects, but will mean something
+different to the object. The prefix of a variable can either determine it's intended datatype
+or it can describe a context sensitive attribute.
+-----------------------------------------------------------------------------------------------
+
+-----------------------------------------------------------------------------------------------
+@DATA TYPES/GENERAL NAME SCHEME ---------------------------------------------------------------
+-----------------------------------------------------------------------------------------------
+> Variable names begin with a prefix, seperated by an underscore, with a camel-case name
+following. This heirarchy starts from broadest category to smallest. Such as:
+	Ex. <TYPE>_<sub-type><Descriptor>
+> The two main data types to be used are TEXT and NUM.
+> Some names are prefixes for function names. EQ is the start of an equation function.
+
+TEXT:
+Strings, numbers as strings, etc. This is exactly what you think it would be.
+	Ex. TEXT_name
+
+NUM:
+Numbers. Can be int, float, any real number.
+	Ex. NUM_strength
+
+EQ:
+An equation. These would be function names, but treated as 
+	Ex. EQ_damageSword
+	
+DRAW:
+For drawing things on the screen.
+	Ex. DRAW_box(wPosX1, wPosY1, wPosX2, wPosY2)
+	
+_AR:
+Indicates the variable is an array.
+	Ex. TEXT_AR_holding (the text an object is holding)
+	
+ARGUMENT NAMES:
+Begin with a w (for what?) and a descriptor in camel-case.
+-----------------------------------------------------------------------------------------------
+
+-----------------------------------------------------------------------------------------------
+@PREFIX MEANINGS ------------------------------------------------------------------------------
+-----------------------------------------------------------------------------------------------
+> These are to be context sensitive variables that most things have. For example, SPD might 
+mean how fast a character object moves. But in the context of dialogue boxes, it means how fast
+the text is displayed.
+
+ELEM: 
+an element of the object. These would be defined as a width/height. Not the sprite that is, but
+this is a context-sensitive thing that could be different per object.
+
+SPD:
+A speed variable.
+-----------------------------------------------------------------------------------------------

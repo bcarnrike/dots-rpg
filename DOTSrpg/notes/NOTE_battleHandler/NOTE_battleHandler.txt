@@ -1,0 +1,84 @@
+-----------------------------------------------------------------------------------------------
+@CONTROL STRUCTURE ----------------------------------------------------------------------------
+-----------------------------------------------------------------------------------------------
+> There are 4 components to the battle system. The actors all send commands to the queue, but
+the way they do so is different. Enemies issue commands directly to the queue (as they're not
+player controlled). Hero characters are player controlled and therefore must go through the
+menu system to issue commands. The battle handler accepts directions from the queue on what
+to do, and controls who's turn it is, damage infliction, etc...
+
+Fig 1.
+|-----[Manipulates]----------------------------
+|                                             |
+|--> Hero 1  >---                             |
+|               |   |-------------|           |
+|--> Hero 2  >------| Menu System |           |
+|               |   |-------------|           |
+|--> Hero 3  >--^            |                |
+|                            |                |
+|                            |                ^
+|                      |-------|      |----------------|
+|                      | queue | <--> | battle handler |
+|--> Enemy 1 >---------|-------|      |----------------|
+|                         |  |
+|--> Enemy 2 >------------^  |
+|                            |
+|--> Enemy 3 >---------------^
+
+The above is an example with 3 heroes and 3 enemies. However, the battle handler will be 
+capable of scaling to any number of heroes or enemies.
+
+The purpose of the 4 component structure is to seperate different types of logic. The main idea
+is that a component accepts an input and sends an output, allowing the component logic to do
+have little impact on the other components. This (hopefully) would allow for flexible UI
+customization, since the menu only takes player input and sends commands to the queue.
+
+The queue is what holds commands and issues them, but control of the game is either in the hands
+of the menu system or the battle handerl.
+
+-----------------------------------------------------------------------------------------------
+@QUEUE OBJECT STRUCTURE -----------------------------------------------------------------------
+-----------------------------------------------------------------------------------------------
+> The queue consists of commands. A command is collection of codes that the battle handler will
+use to decide on what happens. Each code will execute something different and there are several
+types of execution events.
+
+Message code:
+What message text to show when the command is executed. This would usually be a spell name,
+a special attack, or somethign else. But there could be longer messages that act as in-battle
+dialogue between characters.
+
+Action code:
+What action to do. This would be things physical attacks, magic spells, usage of items, etc...
+
+Generally, a message code is executed and an action code is executed. But a command should be
+able to have n number of messages and actions.
+
+-----------------------------------------------------------------------------------------------
+@TURN STRUCTURE -------------------------------------------------------------------------------
+-----------------------------------------------------------------------------------------------
+>Pick an enemy encounter patter
+>Prepare enemy and hero objects
+	>Create heroes based on their globally held stats.
+	>Create enemies based on the selected encounter
+	>Decide who goes first
+	>While the battle is happening
+		>Hand control to an actor
+			>If players turn
+				>Pass control to the menu system.
+			>If enemies turn
+				>For each enemy, call their AI behavior and add commands to queue.
+		>Hand control to the battle handler
+			>For each command in the queue
+				>Get action
+				>Execute events
+				>Check for deaths
+					>If all enemies are dead:
+						>battle is over with exit code 0.
+					>Else
+						>battle is over with exit code 1.
+	>If exit code is 0:
+		>Return to previous room.
+	>If exit code is 1:
+		>Go to game over screen.
+			
